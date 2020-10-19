@@ -6,10 +6,10 @@ use PhpParser\ParserFactory;
 
 class IdentifierExtractor
 {
-    public function __construct()
+    public function __construct($statements = null)
     {
         $this->stubFiles = [];
-        $this->extractStatements = [
+        $this->extractStatements = $statements ?? [
             "PhpParser\Node\Stmt\Class_",
             "PhpParser\Node\Stmt\Interface_",
             "PhpParser\Node\Stmt\Trait_",
@@ -29,19 +29,19 @@ class IdentifierExtractor
         foreach ($this->stubFiles as $file) {
             $content = file_get_contents($file);
             $ast = $this->generateAst($content);
-            $identifiers = array_merge($identifiers, $this->extractIdentifiers($ast));
+            $identifiers = array_merge($identifiers, $this->extractIdentifiersFromAst($ast));
         }
 
         return $identifiers;
     }
 
-    public function generateAst($code)
+    protected function generateAst($code)
     {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         return $parser->parse($code);
     }
 
-    public function extractIdentifiers($ast)
+    protected function extractIdentifiersFromAst($ast)
     {
         $globals = [];
         $items = $ast;
