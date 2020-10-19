@@ -56,17 +56,7 @@ class IdentifierExtractor
             if (in_array(get_class($item), $this->extractStatements)) {
                 $globals[] = $item->name->name;
             }
-
         }
-        // foreach ($ast as $item) {
-        //     if (isset($item->stmts)) {
-        //         $globals = array_merge($globals, $this->extractIdentifiers($item->stmts));
-        //     }
-
-        //     if (in_array(get_class($item), $this->extractStatements)) {
-        //         $globals[] = $item->name->name;
-        //     }
-        // }
 
         return $globals;
     }
