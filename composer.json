@@ -1,0 +1,19 @@
+{
+    "name": "pxlrbt/php-scoper-prefix-remover",
+    "authors": [
+        {
+            "name": "Dennis Koch",
+            "email": "info@pixelarbeit.de"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "pxlrbt\\PhpScoper\\PrefixRemover\\": "./src"
+        }
+    },
+
+    "require": {
+        "nikic/php-parser": "^4.10"
+    }
+}
