@@ -1,6 +1,6 @@
 # Remove-Prefix-Patcher for PHP-Scoper
 
-PHP-Scoper Patcher for removing prefixes from global functions/classes/traits.
+[PHP-Scoper](https://github.com/humbug/php-scoper) Patcher for removing prefixes from global functions/classes/traits.
 
 ## Installation
 ```sh
