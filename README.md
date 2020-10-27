@@ -2,6 +2,11 @@
 
 PHP-Scoper Patcher for removing prefixes from global functions/classes/traits.
 
+## Installation
+```sh
+composer require --dev pxlrbt/php-scoper-prefix-remover
+```
+
 ## Usage
 
 Import the required classes either manually or via composer autoloader:
