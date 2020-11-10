@@ -54,7 +54,7 @@ class IdentifierExtractor
             }
 
             if (in_array($item->getType(), $this->extractStatements)) {
-                $globals[] = $item->name->name;
+                $globals[] = $item->name;
             }
         }
 
