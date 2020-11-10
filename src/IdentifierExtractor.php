@@ -10,10 +10,10 @@ class IdentifierExtractor
     {
         $this->stubFiles = [];
         $this->extractStatements = $statements ?? [
-            "PhpParser\Node\Stmt\Class_",
-            "PhpParser\Node\Stmt\Interface_",
-            "PhpParser\Node\Stmt\Trait_",
-            "PhpParser\Node\Stmt\Function_"
+            "Stmt_Class",
+            "Stmt_Interface",
+            "Stmt_Trait",
+            "Stmt_Function"
         ];
     }
 
@@ -53,7 +53,7 @@ class IdentifierExtractor
                 $items = array_merge($items, $item->stmts);
             }
 
-            if (in_array(get_class($item), $this->extractStatements)) {
+            if (in_array($item->getType(), $this->extractStatements)) {
                 $globals[] = $item->name->name;
             }
         }
