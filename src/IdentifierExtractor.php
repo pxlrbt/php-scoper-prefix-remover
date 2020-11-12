@@ -10,10 +10,17 @@ class IdentifierExtractor
     {
         $this->stubFiles = [];
         $this->extractStatements = $statements ?? [
-            "Stmt_Class",
-            "Stmt_Interface",
-            "Stmt_Trait",
-            "Stmt_Function"
+            'classes' => [
+                "Stmt_Class",
+                "Stmt_Interface",
+                "Stmt_Trait",
+            ],
+            'functions' => [
+                "Stmt_Function"
+            ],
+            'constants' => [
+                'Stmt_Const'
+            ],
         ];
     }
 
@@ -23,16 +30,16 @@ class IdentifierExtractor
         return $this;
     }
 
-    public function extract()
+    public function extract(): IdentifiersInterface
     {
         $identifiers = [];
         foreach ($this->stubFiles as $file) {
             $content = file_get_contents($file);
             $ast = $this->generateAst($content);
-            $identifiers = array_merge($identifiers, $this->extractIdentifiersFromAst($ast));
+            $identifiers[] = $this->extractIdentifiersFromAst($ast);
         }
 
-        return $identifiers;
+        return new CompositeIdentifiers($identifiers);
     }
 
     protected function generateAst($code)
@@ -41,9 +48,13 @@ class IdentifierExtractor
         return $parser->parse($code);
     }
 
-    protected function extractIdentifiersFromAst($ast)
+    protected function extractIdentifiersFromAst($ast): IdentifiersInterface
     {
-        $globals = [];
+        $identifiers = (object) [];
+        foreach (array_keys($this->extractStatements) as $category) {
+            $identifiers->{$category} = [];
+        }
+
         $items = $ast;
 
         while (count($items) > 0) {
@@ -53,11 +64,15 @@ class IdentifierExtractor
                 $items = array_merge($items, $item->stmts);
             }
 
-            if (in_array($item->getType(), $this->extractStatements)) {
-                $globals[] = $item->name;
+            foreach ($this->extractStatements as $category => $types) {
+                if (in_array($item->getType(), $this->extractStatements)) {
+                    $identifiers->{$category}[] = $item->name;
+                }
             }
         }
 
-        return $globals;
+        $identifiers = new Identifiers($identifiers->functions, $identifiers->classes, $identifiers->constants);
+
+        return $identifiers;
     }
 }
