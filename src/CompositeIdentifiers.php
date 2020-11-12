@@ -7,13 +7,15 @@ namespace pxlrbt\PhpScoper\PrefixRemover;
  */
 class CompositeIdentifiers implements IdentifiersInterface
 {
-    /**
-     * @var iterable<IdentifiersInterface>
-     */
+    /** @var iterable<IdentifiersInterface> */
     protected $identifiersList;
+    /** @var iterable<string>|null */
     protected $functions;
+    /** @var iterable<string>|null */
     protected $classes;
+    /** @var iterable<string>|null */
     protected $constants;
+    /** @var iterable<string>|null */
     protected $all;
 
     /**
