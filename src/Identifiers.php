@@ -7,10 +7,18 @@ namespace pxlrbt\PhpScoper\PrefixRemover;
  */
 class Identifiers implements IdentifiersInterface
 {
+    /** @var iterable<string> */
     protected $functions;
+    /** @var iterable<string> */
     protected $classes;
+    /** @var iterable<string> */
     protected $constants;
 
+    /**
+     * @param iterable<string> $functions
+     * @param iterable<string> $classes
+     * @param iterable<string> $constants
+     */
     public function __construct(
         iterable $functions,
         iterable $classes,
