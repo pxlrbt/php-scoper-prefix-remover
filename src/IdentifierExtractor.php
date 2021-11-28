@@ -6,7 +6,7 @@ use PhpParser\ParserFactory;
 
 class IdentifierExtractor
 {
-    public function __construct($statements = null)
+    public function __construct($statements = null, $lexer = null)
     {
         $this->stubFiles = [];
         $this->extractStatements = $statements ?? [
@@ -15,11 +15,18 @@ class IdentifierExtractor
             "Stmt_Trait",
             "Stmt_Function"
         ];
+        $this->lexer = $lexer;
     }
 
     public function addStub($file)
     {
         $this->stubFiles[] = $file;
+        return $this;
+    }
+
+    public function setLexer($lexer)
+    {
+        $this->lexer = $lexer;
         return $this;
     }
 
@@ -37,7 +44,7 @@ class IdentifierExtractor
 
     protected function generateAst($code)
     {
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $this->lexer);
         return $parser->parse($code);
     }
 
