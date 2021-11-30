@@ -3,12 +3,16 @@
 namespace pxlrbt\PhpScoper\PrefixRemover;
 
 use PhpParser\ParserFactory;
+use PhpParser\Lexer;
 
 class IdentifierExtractor
 {
+    protected ?Lexer $lexer = null;
+    protected array $stubFiles = [];
+    protected array $extractStatements = [];
+    
     public function __construct($statements = null)
     {
-        $this->stubFiles = [];
         $this->extractStatements = $statements ?? [
             "Stmt_Class",
             "Stmt_Interface",
@@ -20,6 +24,12 @@ class IdentifierExtractor
     public function addStub($file)
     {
         $this->stubFiles[] = $file;
+        return $this;
+    }
+
+    public function setLexer($lexer)
+    {
+        $this->lexer = $lexer;
         return $this;
     }
 
@@ -37,7 +47,7 @@ class IdentifierExtractor
 
     protected function generateAst($code)
     {
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $this->lexer);
         return $parser->parse($code);
     }
 
