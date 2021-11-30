@@ -3,19 +3,22 @@
 namespace pxlrbt\PhpScoper\PrefixRemover;
 
 use PhpParser\ParserFactory;
+use PhpParser\Lexer;
 
 class IdentifierExtractor
 {
-    public function __construct($statements = null, $lexer = null)
+    protected ?Lexer $lexer = null;
+    protected array $stubFiles = [];
+    protected array $extractStatements = [];
+    
+    public function __construct($statements = null)
     {
-        $this->stubFiles = [];
         $this->extractStatements = $statements ?? [
             "Stmt_Class",
             "Stmt_Interface",
             "Stmt_Trait",
             "Stmt_Function"
         ];
-        $this->lexer = $lexer;
     }
 
     public function addStub($file)
