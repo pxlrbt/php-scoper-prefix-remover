@@ -20,8 +20,8 @@ use pxlrbt\PhpScoper\PrefixRemover\RemovePrefixPatcher;
 Extract the functions/classes/traits/interfaces you want the prefix removed from a stub file:
 ```php
 $identifiers = (new IdentifierExtractor())
-                    ->addStub('stub-file.php')
-                    ->extract();
+  ->addStub('stub-file.php')
+  ->extract();
 ```
 
 Add the patcher in the patcher section of PHPScoper and pass the identifiers you extracted earlier:
@@ -46,8 +46,8 @@ Then add the stubs file to the extractor:
 use pxlrbt\PhpScoper\PrefixRemover\IdentifierExtractor;
 
 $identifiers = (new IdentifierExtractor())
-                    ->addStub('vendor/php-stubs/wordpress-stubs/wordpress-stubs.php')
-                    ->extract();
+  ->addStub('vendor/php-stubs/wordpress-stubs/wordpress-stubs.php')
+  ->extract();
 ```
 
 ## Specific PHP version
