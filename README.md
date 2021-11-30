@@ -49,3 +49,18 @@ $identifiers = (new IdentifierExtractor())
                     ->addStub('vendor/php-stubs/wordpress-stubs/wordpress-stubs.php')
                     ->extract();
 ```
+
+## Specific PHP version
+
+There might be issues with new reserved keywords (e.g. readonly as new keyword in PHP 8.1 and WordPress function name). You can set the targeted PHP version by providing a non default lexer like this:
+
+```php
+use pxlrbt\PhpScoper\PrefixRemover\IdentifierExtractor;
+use PhpParser\Lexer\Emulative;
+
+$identifiers = (new IdentifierExtractor())
+    ->addStub('vendor/php-stubs/wordpress-stubs/wordpress-stubs.php')
+    ->setLexer(new Emulative(['phpVersion' => '8.0']))
+    ->extract();
+```
+
